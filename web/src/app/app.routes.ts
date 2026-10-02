@@ -3,7 +3,6 @@ import { FEATURE_ROUTES } from './features/index';
 import { authGuard, adminGuard } from './shared/auth.guard';
 
 export const routes: Routes = [
-  ...FEATURE_ROUTES,
   {
     path: '',
     loadComponent: () => import('./landing/landing.component').then(m => m.LandingComponent),
@@ -53,6 +52,8 @@ export const routes: Routes = [
     data: { rendersSupportFooterInLayout: true },
     canActivate: [authGuard],
     children: [
+      // Story routes (projects, channels, files, …) render inside the guarded shell.
+      ...FEATURE_ROUTES,
       {
         path: 'dashboard',
         loadComponent: () => import('./dashboard/dashboard.component').then(m => m.DashboardComponent)
@@ -81,10 +82,12 @@ export const routes: Routes = [
         canActivate: [adminGuard],
         loadComponent: () => import('./admin/admin.component').then(m => m.AdminComponent)
       },
+      // Unknown paths stay behind the guard: signed-in users land in the shell,
+      // signed-out visitors go to /login?returnUrl=… via authGuard.
+      {
+        path: '**',
+        redirectTo: 'dashboard'
+      },
     ]
-  },
-  {
-    path: '**',
-    redirectTo: 'login'
   }
 ];

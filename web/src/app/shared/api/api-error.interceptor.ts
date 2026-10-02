@@ -46,7 +46,10 @@ export const apiErrorInterceptor: HttpInterceptorFn = (req, next) => {
             const isAuthCall =
               req.url.includes('/auth/login') ||
               req.url.includes('/auth/signup') ||
-              req.url.includes('/auth/logout');
+              req.url.includes('/auth/logout') ||
+              // The session probe (authGuard) owns its own redirect, which
+              // carries returnUrl; redirecting here would race and drop it.
+              req.url.includes('auth/me');
             // Explicit per-call opt-out (SKIP_AUTH_REDIRECT): used by session
             // HANDOFF requests such as the intake-finish pipeline. A transient
             // 401 there must not clear the cached identity and hijack the
