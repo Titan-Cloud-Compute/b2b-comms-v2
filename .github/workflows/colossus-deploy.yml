@@ -1,0 +1,44 @@
+# Colossus auto-deploy workflow
+# Managed by Colossus — do not edit manually.
+
+name: Colossus Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      TS_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY }}
+      COLOSSUS_API_URL: ${{ secrets.COLOSSUS_API_URL }}
+      COLOSSUS_DEPLOYMENT_ID: ${{ secrets.COLOSSUS_DEPLOYMENT_ID }}
+      COLOSSUS_WEBHOOK_SECRET: ${{ secrets.COLOSSUS_WEBHOOK_SECRET }}
+    steps:
+      - name: Check deploy configuration
+        id: cfg
+        run: |
+          if [ -n "$TS_AUTHKEY" ] && [ -n "$COLOSSUS_WEBHOOK_SECRET" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Colossus GitHub-Actions deploy is not configured (no TAILSCALE_AUTHKEY) — skipping. This app deploys via Colossus's internal pipeline."
+          fi
+
+      - name: Connect to Tailscale
+        if: steps.cfg.outputs.ready == 'true'
+        uses: tailscale/github-action@v2
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+          tags: tag:ci
+
+      - name: Trigger Colossus build
+        if: steps.cfg.outputs.ready == 'true'
+        run: |
+          curl -sf -X POST \
+            "$COLOSSUS_API_URL/api/v1/webhooks/deploy/$COLOSSUS_DEPLOYMENT_ID" \
+            -H "x-webhook-secret: $COLOSSUS_WEBHOOK_SECRET" \
+            -H "Content-Type: application/json" \
+            --max-time 10
+          echo "Build job triggered"
