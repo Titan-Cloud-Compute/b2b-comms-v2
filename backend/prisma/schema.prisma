@@ -140,7 +140,6 @@ model ColossusAccount {
 
 model users {
   id  String  @id @default(cuid())
-  id  String?
   email  String? @unique
   password_hash  String?
   display_name  String?
@@ -154,7 +153,6 @@ model users {
 
 model organizations {
   id  String  @id @default(cuid())
-  id  String?
   name  String?
   type  String?
   is_internal  Boolean?
@@ -165,7 +163,6 @@ model organizations {
 
 model invitations {
   id  String  @id @default(cuid())
-  id  String?
   project_id  String?
   email  String?
   token_hash  String?
@@ -178,7 +175,6 @@ model invitations {
 
 model projects {
   id  String  @id @default(cuid())
-  id  String?
   organization_id  String?
   name  String?
   status  String?
@@ -199,7 +195,6 @@ model project_members {
 
 model folders {
   id  String  @id @default(cuid())
-  id  String?
   project_id  String?
   parent_id  String?
   name  String?
@@ -211,7 +206,6 @@ model folders {
 
 model files {
   id  String  @id @default(cuid())
-  id  String?
   project_id  String?
   folder_id  String?
   name  String?
@@ -224,7 +218,6 @@ model files {
 
 model file_versions {
   id  String  @id @default(cuid())
-  id  String?
   file_id  String?
   version_number  Int?
   storage_key  String?
@@ -237,7 +230,6 @@ model file_versions {
 
 model channels {
   id  String  @id @default(cuid())
-  id  String?
   project_id  String?
   kind  String?
   name  String?
@@ -261,7 +253,6 @@ model question_resolutions {
 
 model messages {
   id  String  @id @default(cuid())
-  id  String?
   channel_id  String?
   author_id  String?
   body_html  String?
@@ -274,7 +265,6 @@ model messages {
 
 model message_attachments {
   id  String  @id @default(cuid())
-  id  String?
   message_id  String?
   file_id  String?
   createdAt  DateTime  @default(now())
@@ -283,7 +273,6 @@ model message_attachments {
 
 model references {
   id  String  @id @default(cuid())
-  id  String?
   message_id  String? @unique
   file_version_id  String?
   page_number  Int?

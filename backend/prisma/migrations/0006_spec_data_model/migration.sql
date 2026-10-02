@@ -1,7 +1,6 @@
 -- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
-    "id" TEXT,
     "email" TEXT,
     "password_hash" TEXT,
     "display_name" TEXT,
@@ -18,7 +17,6 @@ CREATE TABLE "users" (
 -- CreateTable
 CREATE TABLE "organizations" (
     "id" TEXT NOT NULL,
-    "id" TEXT,
     "name" TEXT,
     "type" TEXT,
     "is_internal" BOOLEAN,
@@ -32,7 +30,6 @@ CREATE TABLE "organizations" (
 -- CreateTable
 CREATE TABLE "invitations" (
     "id" TEXT NOT NULL,
-    "id" TEXT,
     "project_id" TEXT,
     "email" TEXT,
     "token_hash" TEXT,
@@ -48,7 +45,6 @@ CREATE TABLE "invitations" (
 -- CreateTable
 CREATE TABLE "projects" (
     "id" TEXT NOT NULL,
-    "id" TEXT,
     "organization_id" TEXT,
     "name" TEXT,
     "status" TEXT,
@@ -75,7 +71,6 @@ CREATE TABLE "project_members" (
 -- CreateTable
 CREATE TABLE "folders" (
     "id" TEXT NOT NULL,
-    "id" TEXT,
     "project_id" TEXT,
     "parent_id" TEXT,
     "name" TEXT,
@@ -90,7 +85,6 @@ CREATE TABLE "folders" (
 -- CreateTable
 CREATE TABLE "files" (
     "id" TEXT NOT NULL,
-    "id" TEXT,
     "project_id" TEXT,
     "folder_id" TEXT,
     "name" TEXT,
@@ -106,7 +100,6 @@ CREATE TABLE "files" (
 -- CreateTable
 CREATE TABLE "file_versions" (
     "id" TEXT NOT NULL,
-    "id" TEXT,
     "file_id" TEXT,
     "version_number" INTEGER,
     "storage_key" TEXT,
@@ -122,7 +115,6 @@ CREATE TABLE "file_versions" (
 -- CreateTable
 CREATE TABLE "channels" (
     "id" TEXT NOT NULL,
-    "id" TEXT,
     "project_id" TEXT,
     "kind" TEXT,
     "name" TEXT,
@@ -152,7 +144,6 @@ CREATE TABLE "question_resolutions" (
 -- CreateTable
 CREATE TABLE "messages" (
     "id" TEXT NOT NULL,
-    "id" TEXT,
     "channel_id" TEXT,
     "author_id" TEXT,
     "body_html" TEXT,
@@ -168,7 +159,6 @@ CREATE TABLE "messages" (
 -- CreateTable
 CREATE TABLE "message_attachments" (
     "id" TEXT NOT NULL,
-    "id" TEXT,
     "message_id" TEXT,
     "file_id" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -180,7 +170,6 @@ CREATE TABLE "message_attachments" (
 -- CreateTable
 CREATE TABLE "references" (
     "id" TEXT NOT NULL,
-    "id" TEXT,
     "message_id" TEXT,
     "file_version_id" TEXT,
     "page_number" INTEGER,
