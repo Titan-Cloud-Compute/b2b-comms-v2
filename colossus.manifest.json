@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "templateVersion": 2,
+  "name": "template-enterprise",
+  "conventions": {
+    "featureFolders": true,
+    "contracts": "shared/contracts",
+    "mocks": "USE_MOCKS"
+  },
+  "services": [
+    {"type": "postgresql", "source": "cluster"},
+    {"type": "redis", "source": "cluster"},
+    {"type": "minio", "source": "cluster"}
+  ]
+}

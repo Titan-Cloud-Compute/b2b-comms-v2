@@ -1,0 +1,395 @@
+{
+  "version": 1,
+  "spec_version": 4,
+  "entities": {
+    "users": {
+      "owner": "Authentication and Roles",
+      "writers": [
+        "Authentication and Roles"
+      ]
+    },
+    "organizations": {
+      "owner": "Projects and External Organization Spaces",
+      "writers": [
+        "Projects and External Organization Spaces"
+      ]
+    },
+    "invitations": {
+      "owner": "Authentication and Roles",
+      "writers": [
+        "Authentication and Roles"
+      ]
+    },
+    "projects": {
+      "owner": "Projects and External Organization Spaces",
+      "writers": [
+        "Projects and External Organization Spaces"
+      ]
+    },
+    "project_members": {
+      "owner": "Projects and External Organization Spaces",
+      "writers": [
+        "Projects and External Organization Spaces"
+      ]
+    },
+    "folders": {
+      "owner": "File Explorer",
+      "writers": [
+        "File Explorer"
+      ]
+    },
+    "files": {
+      "owner": "File Explorer",
+      "writers": [
+        "File Explorer"
+      ]
+    },
+    "file_versions": {
+      "owner": "File Explorer",
+      "writers": [
+        "File Explorer"
+      ]
+    },
+    "channels": {
+      "owner": "Projects and External Organization Spaces",
+      "writers": [
+        "Projects and External Organization Spaces",
+        "General Channels",
+        "Active Question Chats"
+      ]
+    },
+    "question_resolutions": {
+      "owner": "Active Question Chats",
+      "writers": [
+        "Active Question Chats"
+      ]
+    },
+    "messages": {
+      "owner": "General Channels",
+      "writers": [
+        "General Channels",
+        "Active Question Chats"
+      ]
+    },
+    "message_attachments": {
+      "owner": "General Channels",
+      "writers": [
+        "General Channels"
+      ]
+    },
+    "references": {
+      "owner": "Message Reference and Annotation",
+      "writers": [
+        "Message Reference and Annotation"
+      ]
+    },
+    "channel_read_state": {
+      "owner": "Unread Message Indicators",
+      "writers": [
+        "Unread Message Indicators"
+      ]
+    }
+  },
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "mode": "exposes",
+      "story": "Authentication and Roles"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/logout",
+      "mode": "exposes",
+      "story": "Authentication and Roles"
+    },
+    {
+      "method": "POST",
+      "path": "/api/invitations/accept",
+      "mode": "exposes",
+      "story": "Authentication and Roles"
+    },
+    {
+      "method": "GET",
+      "path": "/api/users",
+      "mode": "exposes",
+      "story": "Authentication and Roles"
+    },
+    {
+      "method": "POST",
+      "path": "/api/users",
+      "mode": "exposes",
+      "story": "Authentication and Roles"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/users/:id",
+      "mode": "exposes",
+      "story": "Authentication and Roles"
+    },
+    {
+      "method": "POST",
+      "path": "/api/projects/:id/invitations",
+      "mode": "exposes",
+      "story": "Authentication and Roles"
+    },
+    {
+      "method": "POST",
+      "path": "/api/invitations/:id/resend",
+      "mode": "exposes",
+      "story": "Authentication and Roles"
+    },
+    {
+      "method": "GET",
+      "path": "/api/projects",
+      "mode": "exposes",
+      "story": "Projects and External Organization Spaces"
+    },
+    {
+      "method": "POST",
+      "path": "/api/projects",
+      "mode": "exposes",
+      "story": "Projects and External Organization Spaces"
+    },
+    {
+      "method": "GET",
+      "path": "/api/projects/:id",
+      "mode": "exposes",
+      "story": "Projects and External Organization Spaces"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/projects/:id",
+      "mode": "exposes",
+      "story": "Projects and External Organization Spaces"
+    },
+    {
+      "method": "POST",
+      "path": "/api/projects/:id/archive",
+      "mode": "exposes",
+      "story": "Projects and External Organization Spaces"
+    },
+    {
+      "method": "POST",
+      "path": "/api/projects/:id/members",
+      "mode": "exposes",
+      "story": "Projects and External Organization Spaces"
+    },
+    {
+      "method": "GET",
+      "path": "/api/projects/:id/files",
+      "mode": "exposes",
+      "story": "File Explorer"
+    },
+    {
+      "method": "POST",
+      "path": "/api/projects/:id/files",
+      "mode": "exposes",
+      "story": "File Explorer"
+    },
+    {
+      "method": "GET",
+      "path": "/api/files/:id/download",
+      "mode": "exposes",
+      "story": "File Explorer"
+    },
+    {
+      "method": "GET",
+      "path": "/api/files/:id/versions",
+      "mode": "exposes",
+      "story": "File Explorer"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/files/:id",
+      "mode": "exposes",
+      "story": "File Explorer"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/files/:id",
+      "mode": "exposes",
+      "story": "File Explorer"
+    },
+    {
+      "method": "POST",
+      "path": "/api/projects/:id/folders",
+      "mode": "exposes",
+      "story": "File Explorer"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/folders/:id",
+      "mode": "exposes",
+      "story": "File Explorer"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/folders/:id",
+      "mode": "exposes",
+      "story": "File Explorer"
+    },
+    {
+      "method": "GET",
+      "path": "/api/projects/:id/channels",
+      "mode": "exposes",
+      "story": "General Channels"
+    },
+    {
+      "method": "POST",
+      "path": "/api/projects/:id/channels",
+      "mode": "exposes",
+      "story": "General Channels"
+    },
+    {
+      "method": "GET",
+      "path": "/api/channels/:id/messages",
+      "mode": "exposes",
+      "story": "General Channels"
+    },
+    {
+      "method": "POST",
+      "path": "/api/channels/:id/messages",
+      "mode": "exposes",
+      "story": "General Channels"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/messages/:id",
+      "mode": "exposes",
+      "story": "General Channels"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/messages/:id",
+      "mode": "exposes",
+      "story": "General Channels"
+    },
+    {
+      "method": "GET",
+      "path": "/api/realtime/socket",
+      "mode": "exposes",
+      "story": "General Channels"
+    },
+    {
+      "method": "GET",
+      "path": "/api/projects/:id/questions",
+      "mode": "exposes",
+      "story": "Active Question Chats"
+    },
+    {
+      "method": "POST",
+      "path": "/api/projects/:id/questions",
+      "mode": "exposes",
+      "story": "Active Question Chats"
+    },
+    {
+      "method": "POST",
+      "path": "/api/questions/:id/resolve",
+      "mode": "exposes",
+      "story": "Active Question Chats"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/questions/:id/resolve",
+      "mode": "exposes",
+      "story": "Active Question Chats"
+    },
+    {
+      "method": "GET",
+      "path": "/api/projects/:id/unread",
+      "mode": "exposes",
+      "story": "Unread Message Indicators"
+    },
+    {
+      "method": "POST",
+      "path": "/api/channels/:id/read",
+      "mode": "exposes",
+      "story": "Unread Message Indicators"
+    },
+    {
+      "method": "POST",
+      "path": "/api/messages/:id/reference",
+      "mode": "exposes",
+      "story": "Message Reference and Annotation"
+    },
+    {
+      "method": "GET",
+      "path": "/api/references/:id",
+      "mode": "exposes",
+      "story": "Message Reference and Annotation"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/references/:id",
+      "mode": "exposes",
+      "story": "Message Reference and Annotation"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/references/:id",
+      "mode": "exposes",
+      "story": "Message Reference and Annotation"
+    },
+    {
+      "method": "GET",
+      "path": "/api/file-versions/:id/pages/:page",
+      "mode": "exposes",
+      "story": "Message Reference and Annotation"
+    }
+  ],
+  "routes": [
+    {
+      "path": "/login",
+      "story": "Authentication and Roles"
+    },
+    {
+      "path": "/accept-invite/:token",
+      "story": "Authentication and Roles"
+    },
+    {
+      "path": "/admin/users",
+      "story": "Authentication and Roles"
+    },
+    {
+      "path": "/projects",
+      "story": "Projects and External Organization Spaces"
+    },
+    {
+      "path": "/projects/:id",
+      "story": "Projects and External Organization Spaces"
+    },
+    {
+      "path": "/projects/new",
+      "story": "Projects and External Organization Spaces"
+    },
+    {
+      "path": "/projects/:id/files",
+      "story": "File Explorer"
+    },
+    {
+      "path": "/projects/:id/files/:folderId",
+      "story": "File Explorer"
+    },
+    {
+      "path": "/projects/:id/channels/:channelId",
+      "story": "General Channels"
+    },
+    {
+      "path": "/projects/:id/questions/:channelId",
+      "story": "Active Question Chats"
+    },
+    {
+      "path": "/projects/:id",
+      "story": "Unread Message Indicators"
+    },
+    {
+      "path": "/projects/:id/references/new",
+      "story": "Message Reference and Annotation"
+    },
+    {
+      "path": "/projects/:id/references/:referenceId",
+      "story": "Message Reference and Annotation"
+    }
+  ]
+}

@@ -1,0 +1,440 @@
+.signup-container {
+  min-height: 100svh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: var(--color-bg-secondary);
+}
+
+.signup-card {
+  width: 100%;
+  max-width: 440px;
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  margin: 1rem 0;
+}
+
+.lang-toggle {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.lang-btn {
+  padding: 0.375rem 0.75rem;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s;
+  min-height: 32px;
+}
+
+.lang-btn:hover {
+  background: var(--color-border);
+}
+
+.lang-btn.active {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+h1 {
+  text-align: center;
+  font-size: var(--font-size-xl);
+  color: var(--color-text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.subtitle {
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  margin-bottom: 1.5rem;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+label {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-gray-700);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="url"] {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: var(--font-size-input);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-btn);
+  transition: all 0.2s;
+  min-height: 44px;
+  color: var(--color-text-primary);
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-focus);
+}
+
+/* Read-only display of the model the registration token grants — deliberately
+   NOT a control: no border-focus, no pointer, no chevron. */
+.model-static {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: inherit;
+  font-size: var(--font-size-input);
+  line-height: 1.25;
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-btn);
+  min-height: 44px;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-secondary);
+  cursor: default;
+}
+
+.model-static.is-empty {
+  color: var(--color-text-tertiary);
+  font-style: italic;
+}
+
+.password-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-row input {
+  width: 100%;
+  padding-right: 2.75rem;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-gray-500);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+
+.password-toggle:hover {
+  color: var(--color-primary);
+}
+
+.password-toggle:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+input::placeholder {
+  color: var(--color-gray-400);
+}
+
+input[type="text"]::selection,
+input[type="email"]::selection,
+input[type="password"]::selection,
+input[type="url"]::selection {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+input[type="text"]::-moz-selection,
+input[type="email"]::-moz-selection,
+input[type="password"]::-moz-selection,
+input[type="url"]::-moz-selection {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+.field-hint {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-500);
+  margin-top: 0.25rem;
+}
+
+/* Baymard: mark optional fields in the label itself, visually muted so the
+   marker reads as secondary to the field name. */
+.optional-marker {
+  font-weight: 400;
+  color: var(--color-gray-500);
+}
+
+/* Optional VAT / Reg.No. / Website fields rest in a neutral gray box. The red
+   accent treatment is an *error* state, so it is applied only while the
+   field actually holds a malformed value — i.e. exactly when the
+   `.field-hint-warn` message is rendered inside the group. */
+.vat-field {
+  background: var(--color-gray-100);
+  padding: 1rem;
+  border-radius: var(--radius-btn);
+  border: 1px solid var(--color-gray-200);
+}
+
+.vat-field:has(.field-hint-warn),
+.vat-field.vat-field-invalid {
+  background: var(--color-accent-light);
+  border-color: var(--color-accent);
+}
+
+.vat-field:has(.field-hint-warn) label,
+.vat-field.vat-field-invalid label {
+  color: var(--color-accent);
+}
+
+.token-field {
+  background: linear-gradient(135deg, var(--color-warning-100) 0%, var(--color-warning-200) 100%);
+  padding: 1rem;
+  border-radius: var(--radius-btn);
+  border: 1px solid var(--color-warning-500);
+}
+
+.token-field label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-warning-800);
+  font-weight: 600;
+}
+
+.token-field label svg {
+  flex-shrink: 0;
+}
+
+.token-input {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  /* Fires `animationstart` as soon as the field is rendered, which the template
+     uses to move the caret straight into the registration-code box — people
+     arrive here holding a code, so it must be the first thing they can type in. */
+  animation: token-field-ready 1ms;
+}
+
+@keyframes token-field-ready {
+  from { outline-color: transparent; }
+  to { outline-color: transparent; }
+}
+
+.token-hint {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.375rem;
+  color: var(--color-warning-800);
+}
+
+.token-hint svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.step-indicator {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.step-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  background: var(--color-highlight-100);
+  color: var(--color-highlight-800);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+}
+
+.step-nav {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.step-nav .btn-primary {
+  margin-top: 0;
+}
+
+.btn-secondary {
+  flex: 0 0 auto;
+  padding: 0.875rem 1.25rem;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--color-primary);
+  background: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-btn);
+  cursor: pointer;
+  transition: all 0.2s;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--color-border);
+}
+
+.btn-secondary:active {
+  transform: scale(0.98);
+}
+
+.btn-secondary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: white;
+  background: var(--color-primary);
+  border: none;
+  border-radius: var(--radius-btn);
+  cursor: pointer;
+  transition: all 0.2s;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top-color: white;
+  border-radius: var(--radius-circle);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--color-error-50);
+  border: 1px solid var(--color-error-200);
+  border-radius: var(--radius-btn);
+  color: var(--color-error-600);
+  font-size: var(--font-size-sm);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 1.25rem 0;
+  color: var(--color-gray-400);
+  font-size: var(--font-size-sm);
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-gray-200);
+}
+
+.divider span {
+  padding: 0 1rem;
+}
+
+.login-link {
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.login-link a {
+  color: var(--color-primary);
+  font-weight: 600;
+  margin-left: 0.25rem;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+.signup-footer {
+  margin-top: 1.5rem;
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs);
+}
+
+@media (max-width: 768px) {
+  .signup-card {
+    padding: 1.5rem;
+  }
+
+  h1 {
+    font-size: var(--font-size-lg);
+  }
+}

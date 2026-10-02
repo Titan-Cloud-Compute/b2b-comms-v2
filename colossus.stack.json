@@ -1,0 +1,142 @@
+{
+  "auth": {
+    "login_path": "/login",
+    "notes": "Platform-minted accounts (accounts-v1): one login per role is injected as COLOSSUS_ACCOUNTS_JSON at provision; the seed MUST consume it. ADMIN is always present.",
+    "roles": [
+      "ADMIN",
+      "MANAGER",
+      "USER"
+    ]
+  },
+  "certified": true,
+  "components": {
+    "backend": {
+      "backend_probe_path": "/api/docs",
+      "capabilities": {
+        "app_root": "/app/backend",
+        "build_image": "node:20-alpine",
+        "dep_policy": {
+          "native_addons": "warn"
+        },
+        "hash_lib": "bcryptjs",
+        "native_addons": {
+          "known": [
+            "argon2",
+            "bcrypt",
+            "better-sqlite3",
+            "canvas",
+            "sharp",
+            "sqlite3"
+          ],
+          "toolchain": "RUN apk add --no-cache python3 make g++"
+        }
+      },
+      "commands": {
+        "test": "npm test -- --maxWorkers=2",
+        "typecheck": "npx tsc --noEmit"
+      },
+      "display_name": "NestJS",
+      "fingerprint_files": [
+        "nest-cli.json"
+      ],
+      "id": "nestjs",
+      "kind": "backend",
+      "prompt_fragment": "stacks/enterprise/backend_agent.md",
+      "root_candidates": [
+        "backend"
+      ],
+      "schema_version": 1,
+      "test_tuning": {
+        "jest_max_workers": 2,
+        "ts_jest_isolated_modules": true
+      }
+    },
+    "frontend": {
+      "browser_verify": {
+        "notes": "hash-routed SPA: networkidle never fires; use getAllAngularTestabilities().every(t=>t.isStable())",
+        "wait_strategy": "angular_testability"
+      },
+      "capabilities": {
+        "build_image": "node:20-alpine"
+      },
+      "commands": {
+        "build": "npx ng build --configuration production",
+        "serve_dev": "npx ng serve"
+      },
+      "display_name": "Angular 19",
+      "fingerprint_files": [
+        "angular.json"
+      ],
+      "id": "angular19",
+      "kind": "frontend",
+      "prompt_fragment": "stacks/enterprise/ui_agent.md",
+      "root_candidates": [
+        "frontend",
+        "web/frontend",
+        "web"
+      ],
+      "route_dirs": [
+        "src/app"
+      ],
+      "schema_version": 1,
+      "source_root": "frontend",
+      "test_tuning": {
+        "jest_max_workers": 2
+      }
+    },
+    "orm": {
+      "capabilities": {
+        "seed_cmd": "npx prisma db seed"
+      },
+      "codegen_before_typecheck": [
+        "npx prisma generate"
+      ],
+      "display_name": "Prisma",
+      "id": "prisma",
+      "kind": "orm",
+      "migrate_deploy": "npx prisma migrate deploy",
+      "prompt_fragment": "stacks/enterprise/db_agent.md",
+      "schema_file_candidates": [
+        "prisma/schema.prisma",
+        "backend/prisma/schema.prisma"
+      ],
+      "schema_version": 1,
+      "seed_path_candidates": [
+        "prisma/seed/seed.js",
+        "prisma/seed.js",
+        "backend/prisma/seed/seed.js",
+        "backend/prisma/seed.js"
+      ]
+    }
+  },
+  "display_name": "Enterprise (Angular 19 + NestJS + Prisma)",
+  "docker_targets": [
+    {
+      "context": "backend",
+      "dockerfile": "Dockerfile",
+      "label": "backend"
+    },
+    {
+      "context": "web",
+      "dockerfile": "Dockerfile.frontend",
+      "label": "frontend"
+    }
+  ],
+  "glue": {
+    "api_client": "trpc",
+    "auth_pattern": "jwt_session",
+    "frontend_api_base": "/api"
+  },
+  "golden_image": "template-enterprise:rails-v4",
+  "golden_source": "template-enterprise",
+  "known_good_dockerfiles": true,
+  "notes": "Encodes the pre-multi-stack hardcoded behavior EXACTLY (P0 zero-behavior-change contract). No static template-enterprise directory exists anywhere \u2014 scaffolding is LLM-driven, so on-disk layout varies; when docker_targets returns None (files absent), runtime detection via detect_docker_targets() is the fallback of record.",
+  "resolved_schema_version": 1,
+  "schema_version": 1,
+  "serve_topology": "nginx_frontend_plus_backend_supervisor",
+  "source_root": "frontend",
+  "stack_id": "enterprise",
+  "template_dir": "template-enterprise",
+  "template_id": "enterprise",
+  "template_version": 2
+}

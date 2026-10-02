@@ -1,0 +1,141 @@
+<!doctype html>
+<!-- feedback-v2-smoke-C -->
+<!-- feedback-v2-smoke-D -->
+<html lang="bg" data-theme="light">
+  <head>
+    <meta name="deploy-canary" content="canary-20260611-054459">
+    <meta charset="utf-8" />
+    <title>Enterprise Platform</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="Enterprise application template" />
+    <meta name="theme-color" content="#163e8c" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sofia+Sans:wght@500;600;700;800&display=swap">
+    <style>
+      /* Critical CSS for initial load */
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+      .app-loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f6f8fb; /* = --color-bg-secondary; critical CSS runs before tokens load */
+      }
+      .app-loading .spinner {
+        width: 48px;
+        height: 48px;
+        border: 4px solid #d9dfe9; /* = --color-border */
+        border-top-color: #163e8c; /* = --color-primary */
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
+  </head>
+  <body>
+    <app-root>
+      <div class="app-loading">
+        <div class="spinner"></div>
+      </div>
+    </app-root>
+  <script>
+  /* Auto-test connection badges when admin visits the settings page.
+     Vanilla JS — intentionally outside Angular zone so it does not
+     trigger extra change detection cycles. */
+  (function () {
+    'use strict';
+    var SETTINGS_FRAG = 'app-settings';
+    var _running = false;
+
+    function isSettingsPage() {
+      return window.location.hash.indexOf(SETTINGS_FRAG) !== -1;
+    }
+
+    function waitFor(selector, ms) {
+      return new Promise(function (resolve, reject) {
+        var el = document.querySelector(selector);
+        if (el) { resolve(el); return; }
+        var obs = new MutationObserver(function () {
+          var found = document.querySelector(selector);
+          if (found) { obs.disconnect(); resolve(found); }
+        });
+        obs.observe(document.body, { childList: true, subtree: true });
+        setTimeout(function () { obs.disconnect(); reject(new Error('timeout ' + selector)); }, ms || 15000);
+      });
+    }
+
+    async function runTests() {
+      if (_running) return;
+      _running = true;
+      try {
+        /* Wait for Angular to render the connections grid */
+        await waitFor('.connections-grid');
+        /* Extra settle time so Angular zone.js finishes initialising */
+        await new Promise(function (r) { setTimeout(r, 1000); });
+
+        /* Click the Test Connection button in each recognisable service card.
+           Skip: bggpt (fake test), context (not a remote service). */
+        var SKIP = { bggpt: true, context: true };
+        document.querySelectorAll('.connection-card').forEach(function (card) {
+          var icon = card.querySelector('.connection-icon');
+          var btn  = card.querySelector('.btn-test');
+          if (!icon || !btn) return;
+          var service = Array.from(icon.classList).find(function (c) { return c !== 'connection-icon'; });
+          if (service && !SKIP[service]) { btn.click(); }
+        });
+
+        /* Test the embedding endpoint — no button exists in the compiled UI */
+        try {
+          var res  = await fetch('/api/admin/settings/test/embedding', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: '{}',
+          });
+          var data = await res.json();
+          /* Find the Embedding Model card by heading text and update its badge */
+          document.querySelectorAll('.connection-card').forEach(function (card) {
+            var h4 = card.querySelector('h4');
+            if (!h4 || !/embedding/i.test(h4.textContent || '')) return;
+            var badge = card.querySelector('.connection-status');
+            if (!badge) return;
+            badge.classList.remove('disconnected', 'testing', 'connected');
+            badge.classList.add(data.ok ? 'connected' : 'disconnected');
+            badge.textContent = data.ok ? 'Connected' : 'Disconnected';
+          });
+        } catch (embErr) {
+          console.warn('[health] embedding test failed:', embErr);
+        }
+      } catch (err) {
+        console.warn('[health] auto-test error:', err);
+      } finally {
+        _running = false;
+      }
+    }
+
+    function onNav() { if (isSettingsPage()) { runTests(); } }
+
+    window.addEventListener('hashchange', onNav);
+    if (document.readyState === 'complete') { onNav(); }
+    else { window.addEventListener('load', onNav); }
+  })();
+  </script>
+    <!-- Colossus feedback widget (host-agnostic; off-cluster aibusinessbg.com). deploymentId baked;
+       public ingest token substituted at deploy. Minimal async-deferred snippet; logic in loader.js;
+       self-gates via /ingest/v1/config (Widget Mode toggle); no-ops on the unsubstituted token placeholder. -->
+  <script>window.__COLOSSUS_FEEDBACK__={d:"0f8def9f-78a1-4edb-bc33-14e5759ec661",token:"fbk_8174fe731bbc8ba8c573e5a75493ed9e5aba081d4a5ec623"};</script>
+  <script src="https://colossus.athenconsult.com/ingest/v1/loader.js?app=0f8def9f" defer></script>
+</body>
+</html>

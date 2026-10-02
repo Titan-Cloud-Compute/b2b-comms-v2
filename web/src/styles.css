@@ -1,0 +1,268 @@
+@import './styles/tokens.css';
+
+/* Colour + typography tokens live ONLY in styles/tokens.css (imported above). */
+
+/* ── Style-token extension (U2.8 codemod) ───────────────────────────────────
+ * Declares font-size scale, missing radius/shadow tokens, and --imp-h so that
+ * all component files can reference tokens only (no raw literals).            */
+:root {
+  --imp-h: 0px;
+
+  /* Font-size scale */
+  --font-size-xs: 0.75rem;    /* 12px – smallest labels / tags */
+  --font-size-sm: 0.875rem;   /* 14px – secondary text, buttons */
+  --font-size-md: 0.9375rem;  /* 15px – comfortable body text */
+  --font-size-lg: 1.125rem;   /* 18px – section headings */
+  --font-size-xl: 1.5rem;     /* 24px – page headings */
+  --font-size-2xl: 2rem;      /* 32px – hero headings */
+  --font-size-input: 16px;    /* iOS-zoom-safe input size */
+
+  /* Radius tokens not covered by tokens.css */
+  --radius-xs: 4px;
+  --radius-btn: 8px;
+  --radius-card: 12px;
+
+  /* Shadow tokens not covered by tokens.css */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-popup: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-modal: 0 10px 40px rgba(0, 0, 0, 0.2);
+  --shadow-drawer: -4px 0 24px rgba(0, 0, 0, 0.2);
+  --shadow-nav: 0 1px 3px rgba(14, 23, 38, 0.08);
+  --shadow-header: 0 -1px 3px rgba(14, 23, 38, 0.08);
+  --shadow-sidebar: 1px 0 3px rgba(14, 23, 38, 0.05);
+  --shadow-hover: 0 4px 14px rgba(0, 0, 0, 0.08);
+  --shadow-hover-lg: 0 6px 16px rgba(0, 0, 0, 0.12);
+  --shadow-focus: 0 0 0 3px rgba(var(--color-primary-rgb), 0.15);
+
+  /* Radius for circular elements (avatars, spinners) */
+  --radius-circle: 50%;
+}
+
+/* Global Reset & Base Styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+html[data-theme="light"] {
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  color-scheme: light only;
+  background-color: var(--color-bg-secondary);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  line-height: 1.5;
+  font-size: 15px;
+  min-height: 100svh;
+  min-height: 100vh;
+  overscroll-behavior-y: contain;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Prevent dark mode from system preferences */
+@media (prefers-color-scheme: dark) {
+  html, body {
+    color-scheme: light only;
+    background: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+/* Design-system typography utility classes */
+.heading-2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+p {
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* Ensure inputs don't zoom on iOS */
+input, textarea, select {
+  font-size: 16px;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus styles for accessibility - light theme */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Hide scrollbar but keep functionality */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom scrollbar for webkit browsers - light theme */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-tertiary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+/* Selection color - light theme */
+::selection {
+  background: var(--color-primary-light);
+  color: var(--color-text-primary);
+}
+
+/* Print styles */
+@media print {
+  body {
+    background: var(--color-bg-primary);
+    color: var(--color-text-primary);
+  }
+}
+
+/* Ensure light theme on app container */
+.app-container,
+[data-theme="light"] {
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+}
+
+/* Chat response-mode toggle: instant, styled hover/focus tooltip that explains
+ * each mode (Research / Documents / Both). The explanation text is
+ * sourced from each button's existing `title` attribute via `attr(title)`, so it
+ * does not add any text node to the button (keeping its textContent = label).
+ * This is a fast, visible replacement for the slow/unreliable native tooltip. */
+.mode-toggle .mode-option {
+  position: relative;
+}
+
+.mode-toggle .mode-option::after {
+  content: attr(title);
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  width: max-content;
+  max-width: 220px;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  background: var(--color-text-primary);
+  color: var(--color-white);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  line-height: 1.35;
+  white-space: normal;
+  text-align: center;
+  box-shadow: 0 4px 14px rgba(14, 23, 38, 0.22);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.12s ease;
+}
+
+.mode-toggle .mode-option:hover::after,
+.mode-toggle .mode-option:focus-visible::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ── Intake chat step: the document must NOT be the scroller ───────────────
+ * The intake card bounds itself to the viewport and pins its composer with
+ * `position: sticky; bottom: 0` (see intake.component.styles.ts). That is only
+ * effective while the *document* itself does not scroll — otherwise the whole
+ * card (sticky composer included) scrolls out of the window. AppComponent
+ * renders <app-support-footer mountedIn="shell"> as an in-flow sibling right
+ * after the router outlet, so body content was one viewport (the intake page)
+ * PLUS the footer strip and the page scrolled, dropping the answer box below
+ * the fold exactly as reported.
+ *
+ * Fix: on this route make the shell a bounded flex column — html/body are
+ * exactly one viewport tall with no overflow, the intake page flexes into the
+ * space left above the footer (its 100dvh height acts as a shrinkable basis),
+ * and the transcript inside the card stays the only scrolling area. */
+html:has(app-intake .chat-window),
+body:has(app-intake .chat-window) {
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  max-height: 100vh;
+  max-height: 100dvh;
+  overflow: hidden;
+}
+
+body:has(app-intake .chat-window) app-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+body:has(app-intake .chat-window) app-root > app-intake {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* The card itself: shrink into the space above the footer rather than
+ * insisting on a full viewport (which would push the composer under it). */
+body:has(app-intake .chat-window) app-root > app-intake > .intake-page {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 100%;
+}
+
+body:has(app-intake .chat-window) app-root > app-support-footer {
+  flex: 0 0 auto;
+}
