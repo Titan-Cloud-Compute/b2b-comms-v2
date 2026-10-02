@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { FEATURE_ROUTES } from './features/index';
+import { authGuard, adminGuard } from './shared/auth.guard';
 
 export const routes: Routes = [
   ...FEATURE_ROUTES,
@@ -50,6 +51,7 @@ export const routes: Routes = [
     path: '',
     loadComponent: () => import('./shared/layout.component').then(m => m.LayoutComponent),
     data: { rendersSupportFooterInLayout: true },
+    canActivate: [authGuard],
     children: [
       {
         path: 'dashboard',
@@ -61,18 +63,22 @@ export const routes: Routes = [
       },
       {
         path: 'admin',
+        canActivate: [adminGuard],
         loadComponent: () => import('./admin/admin.component').then(m => m.AdminComponent)
       },
       {
         path: 'admin/overview',
+        canActivate: [adminGuard],
         loadComponent: () => import('./admin/admin.component').then(m => m.AdminComponent)
       },
       {
         path: 'admin/users',
+        canActivate: [adminGuard],
         loadComponent: () => import('./admin/admin.component').then(m => m.AdminComponent)
       },
       {
         path: 'admin/app-settings',
+        canActivate: [adminGuard],
         loadComponent: () => import('./admin/admin.component').then(m => m.AdminComponent)
       },
     ]

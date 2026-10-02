@@ -11,7 +11,7 @@ export interface ImpersonationIdentity {
   impersonating: boolean;
 }
 
-export type UserRole = 'ADMIN' | 'USER' | 'SUPER_ADMIN';
+export type UserRole = 'ADMIN' | 'MANAGER' | 'USER' | 'SUPER_ADMIN';
 
 export interface AuthUser {
   id: string;
@@ -105,9 +105,9 @@ export class AuthApi {
    * Best-effort "who am I" lookup via the users/me endpoint.
    * Returns `null` if the session is gone or absent.
    */
-  async me(): Promise<{ id: string; email: string } | null> {
+  async me(): Promise<{ id: string; email: string; name?: string; role?: string } | null> {
     try {
-      return await this.api.get<{ id: string; email: string }>('users/me');
+      return await this.api.get<{ id: string; email: string; name?: string; role?: string }>('auth/me');
     } catch {
       return null;
     }
