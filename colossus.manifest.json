@@ -1,33 +1,15 @@
 {
-  "build": {
-    "dockerfile": "Dockerfile",
-    "method": "dockerfile",
-    "port": 80
-  },
+  "schemaVersion": 1,
+  "templateVersion": 2,
+  "name": "template-enterprise",
   "conventions": {
-    "contracts": "shared/contracts",
     "featureFolders": true,
+    "contracts": "shared/contracts",
     "mocks": "USE_MOCKS"
   },
-  "env": {
-    "required": []
-  },
-  "name": "template-enterprise",
-  "run": {},
-  "schemaVersion": 1,
   "services": [
-    {
-      "source": "cluster",
-      "type": "postgresql"
-    },
-    {
-      "source": "cluster",
-      "type": "redis"
-    },
-    {
-      "source": "cluster",
-      "type": "minio"
-    }
-  ],
-  "templateVersion": 2
+    {"type": "postgresql", "source": "cluster"},
+    {"type": "redis", "source": "cluster"},
+    {"type": "minio", "source": "cluster"}
+  ]
 }
